@@ -77,8 +77,6 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
   );
 }
 
-// ... (keep the same styles as before)
-
 const styles = StyleSheet.create({
   background: {
     flex: 1,
