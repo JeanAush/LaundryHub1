@@ -4,8 +4,7 @@ import AppNavigator from "./navigation/AppNavigator"; // adjust path as needed
 
 export default function App() {
   return (
-    <NavigationContainer>
       <AppNavigator />
-    </NavigationContainer>
+    
   );
 }

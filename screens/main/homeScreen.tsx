@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper'; // Using Paper for quick UI
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -71,6 +71,8 @@ const services = [
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenProp>();
+  const { width } = Dimensions.get('window');
+  const cardWidth = width / 2 - 24;
 
   return (
     <ScrollView style={styles.container}>
@@ -85,21 +87,36 @@ export default function HomeScreen() {
         />
       </View>
 
-      {/* Service Cards */}
+      {/* Service Cards - Grid Layout */}
       <View style={styles.servicesContainer}>
         {services.map((service) => (
           <Card 
-            key={service.id} 
-            style={styles.card}
+            key={service.id}
+            style={[styles.card, { width: cardWidth }]}
             onPress={() => navigation.navigate('ServicesScreen', { service })}
+            elevation={3}
           >
             <Card.Content style={styles.cardContent}>
-              <Image source={service.icon} style={styles.serviceIcon} />
-              <Text variant="titleMedium" style={styles.serviceTitle}>
+              <Image 
+                source={service.icon} 
+                style={styles.serviceIcon}
+                resizeMode="contain"
+              />
+              <Text 
+                variant="titleMedium" 
+                style={styles.serviceTitle}
+                numberOfLines={1}
+              >
                 {service.title}
               </Text>
-              <Text variant="bodyMedium">{service.description}</Text>
-              <Text variant="bodyLarge" style={styles.priceText}>
+              <Text 
+                variant="bodyMedium" 
+                style={styles.serviceDescription}
+                numberOfLines={2}
+              >
+                {service.description}
+              </Text>
+              <Text variant="titleSmall" style={styles.priceText}>
                 {service.price}
               </Text>
             </Card.Content>
@@ -113,6 +130,7 @@ export default function HomeScreen() {
           mode="contained" 
           style={styles.actionButton}
           onPress={() => navigation.navigate('SchedulePickup')}
+          labelStyle={styles.buttonLabel}
         >
           Schedule Pickup
         </Button>
@@ -120,6 +138,7 @@ export default function HomeScreen() {
           mode="outlined" 
           style={styles.actionButton}
           onPress={() => navigation.navigate('TrackOrder')}
+          labelStyle={styles.buttonLabel}
         >
           Track Order
         </Button>
@@ -147,6 +166,7 @@ const styles = StyleSheet.create({
   notificationIcon: {
     width: 24,
     height: 24,
+    tintColor: '#001F3F',
   },
   servicesContainer: {
     flexDirection: 'row',
@@ -154,9 +174,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   card: {
-    width: '48%',
     marginBottom: 16,
     backgroundColor: 'white',
+    borderRadius: 12,
+    overflow: 'hidden',
   },
   cardContent: {
     alignItems: 'center',
@@ -169,13 +190,20 @@ const styles = StyleSheet.create({
   },
   serviceTitle: {
     fontWeight: 'bold',
-    marginBottom: 4,
     color: '#001F3F',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  serviceDescription: {
+    color: '#666',
+    textAlign: 'center',
+    fontSize: 12,
+    marginBottom: 8,
+    minHeight: 32,
   },
   priceText: {
     color: '#87CEEB',
     fontWeight: 'bold',
-    marginTop: 8,
   },
   quickActions: {
     marginTop: 24,
@@ -183,5 +211,10 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     borderRadius: 8,
+    height: 48,
+    justifyContent: 'center',
+  },
+  buttonLabel: {
+    fontSize: 16,
   },
 });

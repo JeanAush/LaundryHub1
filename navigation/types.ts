@@ -14,4 +14,11 @@ export type RootStackParamList = {
   ServicesScreen: { service: ServiceType }; // replace `ServiceType` with the actual shape of your service object
   SchedulePickup: undefined;
   TrackOrder: undefined;
+  Checkout: {
+    service: ServiceType;
+    quantity: number;
+    selectedOptions: string[];
+    specialInstructions: string;
+    total: number;
+  };
 };
